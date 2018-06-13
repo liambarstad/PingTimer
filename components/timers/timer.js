@@ -22,7 +22,6 @@ export default class Timer extends Component {
       }),
       timerTask: null,
       options: false,
-      editing: false,
     }
   }
 
@@ -48,12 +47,6 @@ export default class Timer extends Component {
   toggleOptions() {
     let options = !this.state.options
     this.setState({ options })
-  }
-
-  toggleEditing() {
-    let editing = !this.state.editing
-    this.toggleOptions()
-    this.setState({ editing })
   }
 
   async addSecond() {
@@ -84,29 +77,10 @@ export default class Timer extends Component {
     this.notificationScheduler.removeTimer(this.id)
   }
 
-  async submitName() {
-    await TimerModel.update(this.id, 'name', this.state.name)
-    this.setState({editing:false})
+  async submitName(name=this.state.name) {
+    await TimerModel.update(this.id, 'name', name)
+    this.setState({ name })
   }
-
-  name() {
-    if (this.state.editing) {
-      return (
-        <TextInput
-          style={timerStyles.name}
-          onChangeText={(name) => this.setState({ name })}
-          onEndEditing={() => this.submitName()}
-          value={this.state.name}
-        />
-      )
-    } else {
-      return (
-        <Text style={timerStyles.name}>
-          { this.state.name }
-        </Text>
-      )
-    }
-  } 
 
   render() {
     return (
@@ -127,7 +101,9 @@ export default class Timer extends Component {
         />
 
         <View style={timerStyles.nameBox}>
-          { this.name() }
+          <Text style={timerStyles.name}>
+            { this.state.name }
+          </Text>
         </View>
 
         <View style={timerStyles.time}>

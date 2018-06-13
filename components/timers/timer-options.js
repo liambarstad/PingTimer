@@ -13,16 +13,25 @@ export default class TimerOptions extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.active) {
+      let active = !this.state.active
+      this.setState({ active })
+    }
+  }
+
   toggle() {
     this.setState({ active: false })
     this.props.toggle()
   }
 
   toggleEditing() {
-    this.setState({ editingName: true })
+    let editingName = !this.state.editingName
+    this.setState({ editingName })
   }
 
   submitName() {
+    this.toggleEditing()
     this.props.onEdit(this.state.timerName)
   }
 
@@ -32,7 +41,6 @@ export default class TimerOptions extends Component {
   }
 
   editNameModal() {
-    // can add style to TextInput
     return (
       <Modal
         isVisible={this.state.editingName}
@@ -41,8 +49,15 @@ export default class TimerOptions extends Component {
         animationIn='fadeIn'
         animationOut='fadeOut'
       >
-        <View style={modalStyles.body}>
+        <View style={[
+          modalStyles.body,
+          { height: '10%'},
+        ]}>
           <TextInput
+            style={[
+              modalStyles.title,
+              modalStyles.darkText,
+            ]}
             onChangeText={(timerName) => this.setState({ timerName })}
             onEndEditing={this.submitName.bind(this)}
             value={this.state.timerName}
@@ -56,29 +71,26 @@ export default class TimerOptions extends Component {
     return (
       <Modal
         isVisible={this.state.active}
-        onBackdropPress={this.toggle()}
+        onBackdropPress={this.toggle.bind(this)}
         style={modalStyles.center}
         animationIn='fadeIn'
         animationOut='fadeOut'
       >
+        { this.editNameModal() }
         <TouchableHighlight
           style={modalStyles.returnButton}
-          onPress={() => this.toggleEditing()}
+          onPress={this.toggleEditing.bind(this)}
         >
-          <Text
-            style={[modalStyles.lightText, modalStyles.title]}
-          >
+          <Text style={[modalStyles.lightText, modalStyles.title]}>
             Edit Name
           </Text>
         </TouchableHighlight>
         
         <TouchableHighlight
           style={modalStyles.redButton}
-          onPress={() => this.deleteTimer()}
+          onPress={this.deleteTimer.bind(this)}
         >
-          <Text
-            style={[modalStyles.lightText, modalStyles.title]}
-          >
+          <Text style={[modalStyles.lightText, modalStyles.title]}>
             Delete
           </Text>
         </TouchableHighlight>
