@@ -16,6 +16,7 @@ export default class Timer extends Component {
       active: this.props.active,
       time: this.props.time.time,
       name: this.props.name || 'New Alarm',
+      defaulted: this.props.defaulted,
       timer: new TimerObject({ 
         active: this.props.active,
         timerName: this.props.name, 
@@ -68,6 +69,7 @@ export default class Timer extends Component {
     this.notificationScheduler.addTimer({
       id: this.id,
       name: this.state.name,
+      defaulted: this.state.defaulted,
     })
   }
 
@@ -93,11 +95,13 @@ export default class Timer extends Component {
         ]}>
       >
         <TimerOptions
+          id={this.id}
           active={this.state.options}
           timerName={this.state.name}
           toggle={this.toggleOptions.bind(this)}
           onEdit={this.submitName.bind(this)}
           onDelete={this.deleteTimer.bind(this)}
+          notificationScheduler={this.notificationScheduler}
         />
 
         <View style={timerStyles.nameBox}>

@@ -15,12 +15,12 @@ const Dimensions = require('Dimensions')
 export default class App extends Component {
   constructor(props) {
     super(props)
+    this.notificationScheduler = new NotificationScheduler()
     this.state = {
       height: Dimensions.get('window').height,
       width: Dimensions.get('window').width,
       innerPanelStyle: mainStyles.innerPanelVertical,
       interval: null,
-      notificationScheduler: new NotificationScheduler(),
     }
   }
   
@@ -28,7 +28,7 @@ export default class App extends Component {
     this._setStyles()
     this._setOrientationListener()
     const interval = await SettingsModel.getPingInterval()
-    this.state.notificationScheduler.setInterval(interval)
+    this.notificationScheduler.setInterval(interval)
     this.setState({ interval })
   }
 
@@ -58,7 +58,7 @@ export default class App extends Component {
             <PingSettingsButton 
               interval={this.state.interval}
               onChange={this.changeInterval.bind(this)}
-              notificationScheduler={this.state.notificationScheduler}
+              notificationScheduler={this.notificationScheduler}
             />
           </View>
 
@@ -69,10 +69,10 @@ export default class App extends Component {
 
         <Timers 
           ref='timers' 
-          // double check if ref is being used
           height={this.state.height}
           width={this.state.width}
-          notificationScheduler={this.state.notificationScheduler}
+          interval={this.state.interval}
+          notificationScheduler={this.notificationScheduler}
         />
 
         <View style={mainStyles.panel}>

@@ -15,6 +15,25 @@ const get = async (id) => {
   }
 }
 
+const getActiveIntervals = async (id) => {
+  let timer = await get(id)
+  let pings = timer.customPings
+  if (timer.defaulted) {
+    pings.push(timer.defaultPing) 
+  }
+  return pings
+}
+
+const getActiveDefaultTimers = async () => {
+  try {
+    let realm = await Realm.open({ schema })
+    let timers = realm.objects('Timer')
+    return timers.filtered('active == true AND defaulted == true')
+  } catch (e) {
+    alert(e)
+  }
+}
+
 const create = async (data) => {
   let realm = await Realm.open({ schema })
   realm.write(() => {
@@ -75,4 +94,14 @@ const performMigrations = async () => {
   })
 }
 
-module.exports = { getAll, get, create, destroy, toggleActive, addTime, update, performMigrations }
+module.exports = { 
+  getAll, 
+  get, 
+  getActiveDefaultTimers,
+  create, 
+  destroy, 
+  toggleActive, 
+  addTime, 
+  update, 
+  performMigrations 
+}

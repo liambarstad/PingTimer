@@ -51,4 +51,40 @@ export default modalStyles = StyleSheet.create({
     borderRadius: 13,
   },
 
+  optionList: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: Colors.appSecondary,
+    paddingVertical: '5%',
+    borderRadius: 13,
+  },
+
+  listOptionActive: {
+    width: '100%',
+    height: '10%',
+    backgroundColor: Colors.appTertiary,
+    borderWidth: 1,
+    paddingTop: '2%',
+  },
+
+  listOptionInactive: {
+    width: '100%',
+    height: '10%',
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderWidth: 1,
+    paddingTop: '2%',
+  },
+
+  listOptionTextActive: {
+    alignSelf: 'center',
+    fontSize: 25, 
+    color: Colors.appPrimary,
+  },
+
+  listOptionTextInactive: {
+    alignSelf: 'center',
+    fontSize: 25,
+    color: Colors.appTertiary,
+  },
+
 })

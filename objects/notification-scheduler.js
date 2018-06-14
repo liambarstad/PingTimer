@@ -1,12 +1,14 @@
 import { PushNotificationIOS } from 'react-native'
 const PushNotification = require('react-native-push-notification')
+const TimerModel = require('../models/timer-model')
 
 export default class NotificationScheduler {
   constructor(params={}) {
     this.interval = params.interval 
-    this.timers = {}
+    this.activeDefaultTimers = {}
     this._requestNotificationPermissions()
     this._configurePush()
+    this._getActiveDefaultTimers()
   }
 
   setInterval(interval) {
@@ -22,27 +24,32 @@ export default class NotificationScheduler {
   }
 
   addTimer(timer) {
-    this.timers[timer.id] = { name: timer.name }
-    this.setNotification()
+    if (timer.defaulted) {
+      this.activeDefaultTimers[timer.id] = { name: timer.name }
+      this.setNotification()
+    } else {
+
+    }
   }
 
   removeTimer(id) {
-    if (this.timers[id]) {
-      delete this.timers[id] 
+    if (this.activeDefaultTimers[id]) {
+      delete this.activeDefaultTimers[id] 
       this.setNotification()
     }
   }
 
   setNotification(details={}) {
-    PushNotification.cancelAllLocalNotifications()
+    //PushNotification.cancelAllLocalNotifications()
+    // ^ delete default notification
     let date = details.date || this._nextPingDate()
-    if (Object.keys(this.timers).length > 0 && date !== 'NA') {
+    if (Object.keys(this.activeDefaultTimers).length > 0 && date !== 'NA') {
       PushNotification.localNotificationSchedule({
-        title: `You have ${this.timers.length} active timers, are you still working?`, 
+        title: `You have ${this.activeDefaultTimers.length} active timers, are you still working?`, 
         message: this._presentTimers(),
         date,
         soundName: 'default',
-        userInfo: { timers: this.timers },
+        userInfo: { timers: this.activeDefaultTimers },
       })
     }
   }
@@ -61,8 +68,8 @@ export default class NotificationScheduler {
 
   _presentTimers() {
     let message = 'Active Timers:\n'
-    for (let timerId in this.timers) {
-      message += `- ${this.timers[timerId].name}\n`
+    for (let timerId in this.activeDefaultTimers) {
+      message += `- ${this.activeDefaultTimers[timerId].name}\n`
     }
     return message
   }
@@ -85,6 +92,15 @@ export default class NotificationScheduler {
       popInitialNotification: false,
       requestPermissions: false,
     })
+  }
+
+  _getActiveDefaultTimers() {
+    TimerModel.getActiveDefaultTimers()
+      .then(data => {
+        data.forEach(timer => {
+          this.activeDefaultTimers[timer.id] = { name: timer.name } 
+        })
+      })
   }
 
 }

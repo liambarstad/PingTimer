@@ -9,6 +9,9 @@ const TimerSchema = {
     last: 'date?',
     active: 'bool',
     name: 'string',
+    defaulted: 'bool',
+    defaultPing: 'string?',
+    customPings: 'string?[]',
   },
 }
 

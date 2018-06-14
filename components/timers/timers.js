@@ -9,14 +9,15 @@ const Dimensions = require('Dimensions')
 export default class Timers extends Component {
   constructor(props) {
     super(props)
+    this.notificationScheduler = this.props.notificationScheduler
     this.state = {
       timers: [],
       rows: [],
       height: this.props.height,
       width: this.props.width,
+      interval: this.props.interval || '15',
       visibleNumber: this._calculateVisibleTimers(this.props.width),
       timersStyle: timerStyles.timersVertical,
-      notificationScheduler: this.props.notificationScheduler,
     }
   }
 
@@ -30,8 +31,8 @@ export default class Timers extends Component {
   } 
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.notificationScheduler) {
-      this.setState({ notificationScheduler: nextProps.notificationScheduler })
+    if (nextProps.interval) {
+      this.setState({ interval: nextProps.interval })
     }
   }
 
@@ -88,6 +89,7 @@ export default class Timers extends Component {
     timers.splice(ind, 1)
     let rows = this.initializeRows(timers)
     this.setState({ timers, rows })
+    this.notificationScheduler.removeTimer(id)
     TimerModel.destroy(id)
   }
 
@@ -135,6 +137,8 @@ export default class Timers extends Component {
       active: false,
       name: 'New Timer',
       time: new Date(0,0,0,0,0,0),
+      defaulted: true,
+      defaultPing: this.state.interval,
     }
   }
 
@@ -146,9 +150,10 @@ export default class Timers extends Component {
         name={timer.name}
         active={timer.active}
         time={{time: timer.time}}
+        defaulted={timer.defaulted}
         index={index.toString()}
         width={this.state.width / this.state.visibleNumber}
-        notificationScheduler={this.state.notificationScheduler}
+        notificationScheduler={this.notificationScheduler}
         onDestroy={this.destroyTimer.bind(this)}
       />
     )

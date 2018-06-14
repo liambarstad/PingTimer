@@ -7,6 +7,8 @@ import modalStyles from '../../styles/modal-styles'
 export default class TimerOptions extends Component {
   constructor(props) {
     super(props)
+    this.id = this.props.id
+    this.notificationScheduler = this.props.notificationScheduler
     this.state = {
       active: this.props.active,
       timerName: this.props.timerName,
@@ -42,10 +44,6 @@ export default class TimerOptions extends Component {
     this.props.onEdit(this.state.timerName)
   }
 
-  submitCustomPings(pings) {
-
-  }
-
   deleteTimer() {
     this.setState({ active: false })
     this.props.onDelete()
@@ -79,17 +77,21 @@ export default class TimerOptions extends Component {
   }
 
   customPingModal() {
-    <Modal
-      isVisible={this.state.editingCustomPing}
-      onBackdropPress={this.toggleCustomPing.bind(this)}
-      style={modalStyles.top}
-      animationIn='fadeIn'
-      animationOut='fadeOut'
-    >
-      <CustomPings
-        onSubmit={this.submitCustomPings.bind(this)}
-      />
-    </Modal>
+    return (
+      <Modal
+        isVisible={this.state.editingCustomPing}
+        onBackdropPress={this.toggleCustomPing.bind(this)}
+        style={modalStyles.center}
+        animationIn='fadeIn'
+        animationOut='fadeOut'
+      >
+        <CustomPings
+          id={this.id}
+          timerName={this.state.timerName}
+          notificationScheduler={this.props.notificationScheduler}
+        />
+      </Modal>
+    )
   }
 
   render() {
