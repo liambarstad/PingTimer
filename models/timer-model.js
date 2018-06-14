@@ -63,7 +63,11 @@ const turnOffDefault = async (id) => {
 
 const addCustom = async (id, value) => {
   try {
-    
+    let realm = await Realm.open({ schema }) 
+    let timer = realm.objectForPrimaryKey('Timer', id)
+    realm.write(() => {
+      timer.customPings = [...timer.customPings, value]
+    })
   } catch (e) {
     alert(e)
   }
@@ -71,7 +75,12 @@ const addCustom = async (id, value) => {
 
 const removeCustom = async (id, value) => {
   try {
-    
+    let realm = await Realm.open({ schema })
+    let timer = realm.objectForPrimaryKey('Timer', id)
+    realm.write(() => {
+      let ind = timer.customPings.indexOf(value)
+      timer.customPings.splice(ind, 1)
+    })
   } catch (e) {
     alert(e)
   }
