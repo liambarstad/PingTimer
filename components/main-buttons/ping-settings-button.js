@@ -64,17 +64,7 @@ export default class PingSettingsButton extends Component {
             selectedValue={this.state.interval} 
             onValueChange={(interval, ind) => this.changeValue(interval)}
           >
-            <Picker.Item label='None' value='NA' />
-            <Picker.Item label='5 min' value='5' />
-            <Picker.Item label='10 min' value='10' />
-            <Picker.Item label='15 min' value='15' />
-            <Picker.Item label='20 min' value='20' />
-            <Picker.Item label='30 min' value='30' />
-            <Picker.Item label='45 min' value='45' />
-            <Picker.Item label='1 hr' value='60' />
-            <Picker.Item label='2 hrs' value='120' />
-            <Picker.Item label='5 hrs' value='300' />
-            <Picker.Item label='10 hrs' value='600' />
+            { this._renderPossiblePings() }
           </Picker>
         </View>
         
@@ -103,4 +93,16 @@ export default class PingSettingsButton extends Component {
       </TouchableHighlight>
     )
   }
+
+  _renderPossiblePings() {
+    let pickerItems = []
+    let possible = Settings.possiblePingIntervals
+    for (let label in possible) {
+      pickerItems.push(
+        <Picker.Item label={label} value={possible[label]} />
+      )
+    }
+    return pickerItems
+  }
+
 }
