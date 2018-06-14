@@ -32,22 +32,10 @@ export default class CustomPings extends Component {
 
   toggleOption(details) {
     if (details.defaultPing) {
-      this.toggleDefaultOption(details.active)
+      this.notificationScheduler.toggleDefault(this.id, details.active)
     } else {
-      this.toggleCustomOption(details.value)
+      this.notificationScheduler.toggleCustom(this.id, details.active, details.value)
     }
-  }
-
-  toggleDefaultOption(active) {
-    if (active) { 
-      //this.notificationScheduler.removeTimer(this.id)
-    } else {
-      //this.notificationScheduler.addTimer(this.timerName)
-    }
-  }
-
-  toggleCustomOption(value) {
-    
   }
 
   render() {

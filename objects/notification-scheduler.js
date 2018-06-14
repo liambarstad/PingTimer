@@ -28,7 +28,7 @@ export default class NotificationScheduler {
       this.activeDefaultTimers[timer.id] = { name: timer.name }
       this.setNotification()
     } else {
-
+      // set custom notification
     }
   }
 
@@ -36,6 +36,29 @@ export default class NotificationScheduler {
     if (this.activeDefaultTimers[id]) {
       delete this.activeDefaultTimers[id] 
       this.setNotification()
+    }
+  }
+
+  async toggleDefault(id, currentlyActive) {
+    if (currentlyActive) {
+      let result = await TimerModel.turnOffDefault(id)
+      // some notification shit 
+    } else {
+      let result = await TimerModel.turnOnDefault(id, this.interval)
+      // db - turn on defaulted + set set defaultPing
+      // some notification shit
+    }
+  }
+
+  async toggleCustom(id, currentlyActive, value) {
+    if (currentlyActive) {
+      let result = await TimerModel.removeCustom(id, value)
+      // db - remove value from custom pings
+      // get and remove notification
+    } else {
+      let result = await TimerModel.addCustom(id, value)
+      // db - add value to custom pings
+      // set custom notification
     }
   }
 
