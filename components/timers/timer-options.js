@@ -12,6 +12,7 @@ export default class TimerOptions extends Component {
     this.state = {
       active: this.props.active,
       timerName: this.props.timerName,
+      timerActive: this.props.timerActive,
       editingName: false,
       editingCustomPing: false,
     }
@@ -21,6 +22,12 @@ export default class TimerOptions extends Component {
     let active = !this.state.active
     if (nextProps.active && nextProps.active == active) {
       this.setState({ active })
+    }
+    if (nextProps.timerName) {
+      this.setState({ timerName: nextProps.timerName })
+    }
+    if (nextProps.timerActive) {
+      this.setState({ timerActive: nextProps.timerActive })
     }
   }
 
@@ -88,6 +95,7 @@ export default class TimerOptions extends Component {
         <CustomPings
           id={this.id}
           timerName={this.state.timerName}
+          timerActive={this.state.timerActive}
           notificationScheduler={this.props.notificationScheduler}
         />
       </Modal>

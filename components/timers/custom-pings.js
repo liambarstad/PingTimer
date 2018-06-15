@@ -9,11 +9,12 @@ export default class CustomPings extends Component {
   constructor(props) {
     super(props)
     this.id = this.props.id
-    this.timerName = this.props.timerName
     this.notificationScheduler = this.props.notificationScheduler
     this.state = {
       pings: [],
       activeIntervals: [],
+      timerName: this.props.timerName,
+      timerActive: this.props.timerActive,
     }
   }
 
@@ -25,17 +26,39 @@ export default class CustomPings extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.timerName) {
-      this.timerName = this.props.timerName
+    if (nextProps.timerName) { 
+      this.setState({ timerName: nextProps.timerName }) 
+    } 
+    if (nextProps.timerActive) { 
+      this.setState({ timerActive: nextProps.timerActive })
     }
   }
 
   toggleOption(details) {
     if (details.defaultPing) {
-      this.notificationScheduler.toggleDefault(this.id, details.active)
+      this.toggleDefault(details.currentlyOn)
     } else {
-      this.notificationScheduler.toggleCustom(this.id, details.active, details.value)
+      this.toggleCustom(details.value, details.currentlyOn)
     }
+  }
+
+  toggleDefault(currentlyOn) {
+    this.notificationScheduler.toggleDefault(
+      this.id, 
+      this.state.timerName, 
+      currentlyOn, 
+      this.state.timerActive
+    )
+  }
+
+  toggleCustom(value, currentlyOn) {
+    this.notificationScheduler.toggleCustom(
+      this.id, 
+      this.state.timerName, 
+      value, 
+      currentlyOn, 
+      this.state.timerActive
+    )
   }
 
   render() {
@@ -65,7 +88,7 @@ export default class CustomPings extends Component {
         label={label}
         value={value}
         defaultPing={this._isDefaultPing(value)} 
-        active={this._isActive(value)}
+        currentlyOn={this._isCurrentlyOn(value)}
         onToggle={this.toggleOption.bind(this)}
       />
     )
@@ -75,7 +98,7 @@ export default class CustomPings extends Component {
     return Boolean(this.notificationScheduler.interval == value)
   }
 
-  _isActive(value) {
+  _isCurrentlyOn(value) {
     return Boolean(this.state.activeIntervals.includes(value))
   }
 

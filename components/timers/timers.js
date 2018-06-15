@@ -138,7 +138,7 @@ export default class Timers extends Component {
       name: 'New Timer',
       time: new Date(0,0,0,0,0,0),
       defaulted: true,
-      defaultPing: this.state.interval,
+      defaultPing: this.notificationScheduler.interval,
     }
   }
 

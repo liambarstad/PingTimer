@@ -15,6 +15,12 @@ export default class PingSettingsButton extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.interval) {
+      this.setState({ interval: nextProps.interval })
+    }
+  }
+
   nextPing() {
     if (this.state.interval == 'NA') {
       return 'not scheduled'
@@ -57,7 +63,7 @@ export default class PingSettingsButton extends Component {
       >
         <View style={modalStyles.body}>
           <Text style={[modalStyles.darkText, modalStyles.title]}>
-            {`Next ping ${this.nextPing()}`}
+            {`Next Ping ${this.nextPing()}`}
           </Text>
 
           <Picker
@@ -72,7 +78,9 @@ export default class PingSettingsButton extends Component {
           style={modalStyles.returnButton}
           onPress={this.setInterval.bind(this)}
         >
-          <Text style={[modalStyles.lightText, modalStyles.title]}>Set Interval</Text>
+          <Text style={[modalStyles.lightText, modalStyles.title]}>
+            Set Default Interval
+          </Text>
         </TouchableHighlight>
       </Modal>
     )

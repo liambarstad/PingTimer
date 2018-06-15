@@ -98,6 +98,7 @@ export default class Timer extends Component {
           id={this.id}
           active={this.state.options}
           timerName={this.state.name}
+          timerActive={this.state.active}
           toggle={this.toggleOptions.bind(this)}
           onEdit={this.submitName.bind(this)}
           onDelete={this.deleteTimer.bind(this)}

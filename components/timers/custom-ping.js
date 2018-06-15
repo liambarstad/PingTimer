@@ -7,20 +7,20 @@ export default class CustomPing extends Component {
     super(props)
     this.label = this.props.label
     this.value = this.props.value
-    this.defaultPing = this.props.defaultPing || false
     this.state = {
-      active: this.props.active,
+      currentlyOn: this.props.currentlyOn,
+      defaultPing: this.props.defaultPing || false
     }
   }
 
   toggleActive() {
-    let active = !this.state.active
-    this.setState({ active })
+    let currentlyOn = !this.state.currentlyOn
     this.props.onToggle({
-      defaultPing: this.defaultPing,
-      active: this.state.active,
+      defaultPing: this.state.defaultPing,
+      currentlyOn: this.state.currentlyOn,
       value: this.value,
     })
+    this.setState({ currentlyOn })
   }
 
   render() {
@@ -40,12 +40,12 @@ export default class CustomPing extends Component {
 
   _presentLabel() {
     let defaultPing = ''
-    if (this.defaultPing) { defaultPing = ' (default)' }
+    if (this.state.defaultPing) { defaultPing = ' (default)' }
     return `${this.label}${defaultPing}`
   }
 
   _listOptionStyle() {
-    if (this.state.active) {
+    if (this.state.currentlyOn) {
       return modalStyles.listOptionActive
     } else {
       return modalStyles.listOptionInactive
@@ -53,7 +53,7 @@ export default class CustomPing extends Component {
   }
 
   _listOptionTextStyle() {
-    if (this.state.active) {
+    if (this.state.currentlyOn) {
       return modalStyles.listOptionTextActive
     } else {
       return modalStyles.listOptionTextInactive

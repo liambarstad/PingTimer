@@ -61,6 +61,20 @@ const turnOffDefault = async (id) => {
   }
 }
 
+const changeDefault = async (interval) => {
+  try {
+    let realm = await Realm.open({ schema })
+    let timers = realm.objects('Timer').filtered('defaulted == true')
+    realm.write(() => {
+      for (let timer in timers) {
+        timers[timer].defaultPing = interval
+      }
+    })
+  } catch (e) {
+    alert(e)
+  }
+}
+
 const addCustom = async (id, value) => {
   try {
     let realm = await Realm.open({ schema }) 
@@ -154,6 +168,7 @@ module.exports = {
   getActiveDefaultTimers,
   turnOnDefault,
   turnOffDefault,
+  changeDefault,
   addCustom,
   removeCustom,
   create, 

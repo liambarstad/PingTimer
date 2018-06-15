@@ -71,7 +71,6 @@ export default class App extends Component {
           ref='timers' 
           height={this.state.height}
           width={this.state.width}
-          interval={this.state.interval}
           notificationScheduler={this.notificationScheduler}
         />
 
