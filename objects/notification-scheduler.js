@@ -25,7 +25,6 @@ export default class NotificationScheduler {
   }
 
   addTimer(timer) {
-    alert(timer.defaulted)
     if (timer.defaulted) { this.addToDefaultNotification(timer.id, timer.name) }
     this.addCustomNotifications(timer.id)
   }
@@ -94,7 +93,7 @@ export default class NotificationScheduler {
   setDefaultNotification(details={}) {
     PushNotification.cancelLocalNotifications({ name: 'defaultNotification' })
     let date = details.date || this._nextPingDate()
-    if (Object.keys(this.activeDefaultTimers).length > 0 && date !== 'NA') {
+    if (Object.keys(this.activeDefaultTimers).length > 0 && date) {
       PushNotification.localNotificationSchedule({
         title: `You have ${this.activeDefaultTimers.length} active timers, are you still working?`, 
         message: this._presentTimers(),
@@ -106,15 +105,49 @@ export default class NotificationScheduler {
   }
 
   _nextPingDate(interval=this.interval) {
-    if (interval !== 'NA') {
+    let exception = this._getIntervalExceptions(interval)
+    if (!exception) {
       let utc_min = Date.now() / 60000
       let last_interval = utc_min - (utc_min % parseInt(interval)) 
       let date_next = new Date(0)
       date_next.setUTCMinutes(last_interval + parseInt(interval))
       return date_next
     } else {
-      return this.interval
+      return exception
     }
+  }
+
+  _getIntervalExceptions(interval) {
+    if (interval === 'NA') {
+      return null 
+    } else if (interval === 'DAY') {
+      return this._nextDay()
+    } else if (interval === 'WEEK') {
+      return this._nextWeek()
+    } else if (interval === 'MONTH') {
+      return this._nextMonth()
+    }
+  }
+
+  _nextDay() {
+    let date = new Date()
+    date.setHours(12)
+    date.setDate(date.getDate() + 1)
+    return date
+  }
+
+  _nextWeek() {
+    let date = new Date()
+    date.setHours(12)
+    date.setDate(date.getDate() + 7)
+    return date
+  }
+
+  _nextMonth() {
+    let date = new Date()
+    date.setHours(12)
+    date.setMonth(date.getMonth() + 1)
+    return date
   }
 
   _presentTimers() {

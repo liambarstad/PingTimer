@@ -26,18 +26,48 @@ export default mainStyles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.3)',
   },
 
+  halfSize: {
+    width: '50%',
+  },
+
+  thirdSize: {
+    width: '33.3%',
+  },
+
   left: {
     height: '100%',
-    width: '50%',
     alignItems: 'flex-start',
     flexDirection: 'row',
   },
 
   right: {
     height: '100%',
-    width: '50%',
     alignItems: 'flex-end',
     justifyContent: 'center',
+  },
+
+  center: {
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  bucketActive: {
+    height: '70%',
+    width: '65%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 13,
+    backgroundColor: '#3B3175',
+  },
+
+  bucketInactive: {
+    height: '70%',
+    width: '65%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 13,
+    backgroundColor: '#246C5E',
   },
 
   innerPanelVertical: {

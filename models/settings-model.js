@@ -27,12 +27,29 @@ const getPingInterval = async () => {
     if (pingSetting) {
       return pingSetting.value
     } else {
-      return await initializePingInterval()
+      let pingInterval = await initializePingInterval()
+      return pingInterval
     }
   } catch (e) {
     alert(e)
   }
 }
+
+const getBucketView = async () => {
+  try {
+    let realm = await Realm.open({ schema })
+    let bucketSetting = realm.objectForPrimaryKey('Settings', 'bucketView')
+    if (bucketSetting) {
+      return _toBool(bucketSetting.value)
+    } else {
+      let bucketView = await initializeBucketView()
+      return _toBool(bucketView)
+    }
+  } catch (e) {
+    alert(e)
+  }
+}
+
 
 const setPingInterval = async (time) => {
   let realm = await Realm.open({ schema })
@@ -44,15 +61,26 @@ const setPingInterval = async (time) => {
   })
 }
 
-const initializePingInterval = async (time='15') => {
+const initializeBucketView = async (value='false') => {
+  let realm = await Realm.open({ schema })
+  realm.write(() => {
+    realm.create('Settings', {
+      name: 'bucketView',
+      value,
+    })
+  })
+  return value
+}
+
+const initializePingInterval = async (value='15') => {
   let realm = await Realm.open({ schema })
   realm.write(() => {
     realm.create('Settings', {
       name: 'pingInterval',
-      value: time
+      value,
     })
   })
-  return time
+  return value
 }
 
 const getLayout = async () => {
@@ -71,9 +99,18 @@ const setColors = async (colorScheme) => {
 
 }
 
+const _toBool = (str) => {
+  if (str === 'true') { 
+    return true 
+  } else {
+    return false 
+  }
+}
+
 module.exports = { 
   possiblePingIntervals,
   getPingInterval, 
+  getBucketView,
   setPingInterval, 
   getLayout,
   setLayout,

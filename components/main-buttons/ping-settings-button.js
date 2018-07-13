@@ -22,15 +22,17 @@ export default class PingSettingsButton extends Component {
   }
 
   nextPing() {
-    if (this.state.interval == 'NA') {
-      return 'not scheduled'
+    let exceptionMessage = this._getDateExceptions()
+    if (exceptionMessage) {
+      return exceptionMessage
+    } else {
+      let date_next = this.getNextPingDate()
+      let timeOfDay = 'AM'
+      if (date_next.getHours() >= 12) { timeOfDay = 'PM' }
+      let minutes = date_next.getMinutes().toString()
+      if (minutes.length == 1) { minutes += '0' }
+      return `at ${date_next.getHours() % 12}:${minutes}${timeOfDay}`
     }
-    let date_next = this.getNextPingDate()
-    let timeOfDay = 'AM'
-    if (date_next.getHours() >= 12) { timeOfDay = 'PM' }
-    let minutes = date_next.getMinutes().toString()
-    if (minutes.length == 1) { minutes += '0' }
-    return `at ${date_next.getHours() % 12}:${minutes}${timeOfDay}`
   }
 
   getNextPingDate(interval=this.state.interval) {
@@ -111,6 +113,20 @@ export default class PingSettingsButton extends Component {
       )
     }
     return pickerItems
+  }
+
+  _getDateExceptions() {
+    if (this.state.interval == 'NA') {
+      return 'Not Scheduled'
+    } else if (this.state.interval == 'DAY') {
+      return 'Tomorrow'
+    } else if (this.state.interval == 'WEEK') {
+      return 'Weekly'
+    } else if (this.state.interval == 'MONTH') {
+      return 'Monthly'
+    } else {
+      return null
+    }
   }
 
 }
