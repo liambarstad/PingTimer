@@ -10,12 +10,6 @@ export default class BucketButton extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.active) { 
-      this.setState({ active: nextProps.active })
-    }
-  }
-
   bucketStyle() {
     if (this.state.active) {
       return mainStyles.bucketActive
@@ -24,16 +18,37 @@ export default class BucketButton extends Component {
     }
   }
 
-  render() {
-    return (
-      <TouchableHighlight
-        style={this.bucketStyle()}
-        onPress={this.props.onPress.bind(this)}
-      >
+  toggleBucketStyle() {
+    let active = !this.state.active
+    this.setState({ active })
+    this.props.onPress()
+  }
+
+  icon() {
+    if (this.state.active) {
+      return (
+        <Image
+          style={mainStyles.icon}
+          source={require('../../assets/timer.png')}
+        />
+      )
+    } else {
+      return (
         <Image
           style={mainStyles.icon}
           source={require('../../assets/bucket.png')}
         />
+      )
+    }
+  }
+
+  render() {
+    return (
+      <TouchableHighlight
+        style={this.bucketStyle()}
+        onPress={this.toggleBucketStyle.bind(this)}
+      >
+        { this.icon() }
       </TouchableHighlight>
     )
   }

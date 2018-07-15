@@ -87,7 +87,7 @@ export default class RowList extends Component {
     let formattedObjects = []
     objects.forEach((object, ind) => {
       formattedObjects.push(
-        this.onFormat(object, (startIndex + ind))
+        this.onFormat(object, (startIndex + ind), this.state.visibleNumber)
       )
     })
     return formattedObjects

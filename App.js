@@ -46,17 +46,18 @@ export default class App extends Component {
     if (this.state.bucketView) {
       return (
         <Buckets
-          ref='buckets'
+          ref='main'
           height={this.state.height}
           width={this.state.width}
           targetWidth='160'
+          onBucketDetail={this.toggleBucketDetail.bind(this)}
           notificationScheduler={this.notificationScheduler}
         />
       )
     } else {
       return (
         <Timers 
-          ref='timers' 
+          ref='main' 
           height={this.state.height}
           width={this.state.width}
           targetWidth='160'
@@ -68,8 +69,11 @@ export default class App extends Component {
 
   toggleBucketView() {
     let bucketView = !this.state.bucketView
-    //this.refs.timers.animate
     this.setState({ bucketView })
+  }
+
+  toggleBucketDetail(id) {
+    // change view to certain bucket
   }
 
   async changeInterval(interval) {
@@ -149,7 +153,7 @@ export default class App extends Component {
           >
             <NewTimerButton 
               className='create-button'
-              onPress={() => this.refs.timers.addTimer()}
+              onPress={() => this.refs.main.add()}
             />
           </View>
         </View>

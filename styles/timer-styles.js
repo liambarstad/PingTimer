@@ -3,16 +3,6 @@ import Colors from './colors'
 
 export default timerStyles = StyleSheet.create({
 
-  timersVertical: {
-    height: '65%',
-    width: '100%',
-  },
-
-  timersHorizontal: {
-    height: '48%',
-    width: '100%',
-  },
-
   timersInner: {
     height: '100%',
     flexDirection: 'row',

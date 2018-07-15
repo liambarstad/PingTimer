@@ -1,21 +1,19 @@
 import React, { Component } from 'react'
 import { Text, View, ScrollView } from 'react-native'
-import RowList from '../meta/row-list'
+import RowList from '../shared/row-list'
+import SmartView from '../shared/smart-view'
 import Timer from './timer'
 import timerStyles from '../../styles/timer-styles'
 const TimerModel = require('../../models/timer-model')
 const SettingsModel = require('../../models/settings-model')
-const Dimensions = require('Dimensions')
 
 export default class Timers extends Component {
   constructor(props) {
     super(props)
     this.notificationScheduler = this.props.notificationScheduler
     this.state = {
-      ...this.state,
       timers: [],
       interval: this.props.interval || '15',
-      timersStyle: timerStyles.timersVertical,
     }
   }
 
@@ -31,7 +29,7 @@ export default class Timers extends Component {
     }
   }
 
-  async addTimer() {
+  async add() {
     let newTimer = await TimerModel.create(this._blankTimer())
     this.setState({ timers: [...this.state.timers, newTimer ]})
   }
@@ -44,7 +42,7 @@ export default class Timers extends Component {
     TimerModel.destroy(id)
   }
 
-  formatTimer(timer, index) {
+  formatTimer(timer, index, visibleNumber) {
     return (
       <Timer 
         key={timer.id.toString()}
@@ -54,7 +52,7 @@ export default class Timers extends Component {
         time={{time: timer.time}}
         defaulted={timer.defaulted}
         index={index.toString()}
-        width={this.state.width / this.state.visibleNumber}
+        width={this.props.width / visibleNumber}
         notificationScheduler={this.notificationScheduler}
         onDestroy={this.destroyTimer.bind(this)}
       />
@@ -63,18 +61,21 @@ export default class Timers extends Component {
 
   render() {
     return (
-      <ScrollView 
-        style={this.state.timersStyle}
+      <SmartView 
+        verticalHeight={'75%'}
+        horizontalHeight={'60%'}
       >
-        <RowList
-          onFormat={this.formatTimer.bind(this)}
-          height={this.props.height}
-          width={this.props.width}
-          targetWidth={this.props.targetWidth}
-        >
-          { this.state.timers }
-        </RowList>
-      </ScrollView>
+        <ScrollView>
+          <RowList
+            onFormat={this.formatTimer.bind(this)}
+            height={this.props.height}
+            width={this.props.width}
+            targetWidth={this.props.targetWidth}
+          >
+            { this.state.timers }
+          </RowList>
+        </ScrollView>
+      </SmartView>
     )
   }
 

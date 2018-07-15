@@ -15,6 +15,17 @@ const TimerSchema = {
   },
 }
 
+const BucketSchema = {
+  name: 'Bucket',
+  primaryKey: 'id',
+  properties: {
+    id: 'int',
+    name: 'string',
+    timers: 'Timer[]',
+    //customPings: 'string?[]',
+  },
+}
+
 const SettingsSchema = {
   name: 'Settings',
   primaryKey: 'name',
@@ -24,4 +35,10 @@ const SettingsSchema = {
   }
 }
 
-module.exports = { schema: [TimerSchema, SettingsSchema] }
+module.exports = { schema: 
+  [
+    TimerSchema, 
+    BucketSchema,
+    SettingsSchema,
+  ] 
+}

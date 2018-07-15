@@ -91,8 +91,8 @@ export default class Timer extends Component {
         onLongPress={() => this.toggleOptions()}
         style={[
           {width: this.props.width},
-          timerStyles.timer
-        ]}>
+          timerStyles.timer,
+        ]}
       >
         <TimerOptions
           id={this.id}
