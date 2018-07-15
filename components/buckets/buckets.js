@@ -1,4 +1,4 @@
-import React, { Components } from 'react'
+import React, { Component } from 'react'
 import { Text, View, ScrollView } from 'react-native'
 const Dimensions = require('Dimensions')
 

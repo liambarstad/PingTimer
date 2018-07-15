@@ -49,6 +49,7 @@ export default class App extends Component {
           ref='buckets'
           height={this.state.height}
           width={this.state.width}
+          targetWidth='160'
           notificationScheduler={this.notificationScheduler}
         />
       )
@@ -58,6 +59,7 @@ export default class App extends Component {
           ref='timers' 
           height={this.state.height}
           width={this.state.width}
+          targetWidth='160'
           notificationScheduler={this.notificationScheduler}
         />
       )
