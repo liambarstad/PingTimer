@@ -3,6 +3,7 @@ import { Text, View, ScrollView } from 'react-native'
 import RowList from '../shared/row-list'
 import SmartView from '../shared/smart-view'
 import Bucket from './bucket'
+import NewBucketForm from './new-bucket-form'
 const BucketModel = require('../../models/bucket-model')
 
 export default class Buckets extends Component {
@@ -11,6 +12,7 @@ export default class Buckets extends Component {
     this.notificationScheduler = this.props.notificationScheduler
     this.state = {
       buckets: [],
+      creating: false,
     }
   }
 
@@ -20,7 +22,11 @@ export default class Buckets extends Component {
     this.setState({ buckets })
   }
 
-  async add(bucket) {
+  add() {
+    this.setState({ creating: true })
+  }
+
+  async createBucket(bucket) {
     let newBucket = await BucketModel.create(bucket)
     this.setState({ buckets: [...this.state.buckets, newBucket]})
   }
@@ -52,11 +58,13 @@ export default class Buckets extends Component {
         verticalHeight={'75%'}
         horizontalHeight={'60%'}
       >
+        <NewBucketForm
+          creating={this.state.creating}
+          onSubmit={this.createBucket.bind(this)}
+        />
         <ScrollView>
           <RowList
             onFormat={this.formatBucket.bind(this)}
-            height={this.props.height}
-            width={this.props.width}
             targetWidth={this.props.targetWidth}
           >
             { this.state.buckets }

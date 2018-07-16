@@ -19,27 +19,16 @@ export default class App extends Component {
     super(props)
     this.notificationScheduler = new NotificationScheduler()
     this.state = {
-      height: Dimensions.get('window').height,
-      width: Dimensions.get('window').width,
-      innerPanelStyle: mainStyles.innerPanelVertical,
       bucketView: false,
       interval: null,
     }
   }
   
   async componentDidMount() { 
-    this._setStyles()
     await this._setBucketView()
-    this._setOrientationListener()
     const interval = await SettingsModel.getPingInterval()
     this.notificationScheduler.setInterval(interval)
     this.setState({ interval })
-  }
-
-  componentWillUnmount() {
-    Dimensions.removeEventListener('change', () => {
-      this._setStyles()
-    })
   }
 
   appBody() {
@@ -47,9 +36,6 @@ export default class App extends Component {
       return (
         <Buckets
           ref='main'
-          height={this.state.height}
-          width={this.state.width}
-          targetWidth='160'
           onBucketDetail={this.toggleBucketDetail.bind(this)}
           notificationScheduler={this.notificationScheduler}
         />
@@ -58,9 +44,6 @@ export default class App extends Component {
       return (
         <Timers 
           ref='main' 
-          height={this.state.height}
-          width={this.state.width}
-          targetWidth='160'
           notificationScheduler={this.notificationScheduler}
         />
       )
@@ -160,27 +143,6 @@ export default class App extends Component {
 
       </View>
     )
-  }
-
-  _setOrientationListener() {
-    Dimensions.addEventListener('change', () => {
-      this._swapOrientation()
-      this._setStyles()
-    })
-  }
-
-  _swapOrientation() {
-    const height = this.state.width
-    const width = this.state.height
-    this.setState({ height, width })
-  }
-
-  _setStyles() {
-    if (this.state.height > this.state.width) {
-      this.setState({ innerPanelStyle: mainStyles.innerPanelVertical })
-    } else {
-      this.setState({ innerPanelStyle: mainStyles.innerPanelHorizontal })
-    }
   }
 
   async _setBucketView() {

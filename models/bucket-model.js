@@ -2,12 +2,27 @@ const Realm = require('realm')
 const { schema } = require('./schema')
 
 const getAll = async () => {
-  let realm = await Realm.open({ schema })
-  return realm.objects('Bucket')
+  try {
+    let realm = await Realm.open({ schema })
+    return realm.objects('Bucket')
+  } catch (e) {
+    alert(e)
+  }
 }
 
-const create = async (bucket) => {
-
+const create = async (data, linkedObjects={}) => {
+  try {
+    let realm = await Realm.open({ schema })
+    realm.write(() => {
+      let newBucket = realm.create('Bucket', data)
+      linkedObjects.timers.forEach((timerId) => {
+        let timer = realm.objectForPrimaryKey('Timer', timerId)
+        newBucket.timers.push(timer)
+      })
+    })
+  } catch (e) {
+    alert(e)
+  }
 }
 
 const destroy = async (id) => {

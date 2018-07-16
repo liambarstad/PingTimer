@@ -12,6 +12,11 @@ const TimerSchema = {
     defaulted: 'bool',
     defaultPing: 'string?',
     customPings: 'string?[]',
+    buckets: {
+      type: 'linkingObjects',
+      objectType: 'Bucket',
+      property: 'timers',
+    },
   },
 }
 
@@ -22,7 +27,6 @@ const BucketSchema = {
     id: 'int',
     name: 'string',
     timers: 'Timer[]',
-    //customPings: 'string?[]',
   },
 }
 

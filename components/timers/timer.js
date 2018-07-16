@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Text, View, TextInput, TouchableOpacity, Button } from 'react-native'
-import Modal from 'react-native-modal'
 import TimerOptions from './timer-options'
 import timerStyles from '../../styles/timer-styles'
 import { timeToStr } from '../../helpers/timer-helper'

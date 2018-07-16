@@ -7,13 +7,13 @@ export default class RowList extends Component {
     super(props)
     this.onFormat = this.props.onFormat
     this.targetWidth = this.props.targetWidth
+    let dimensions = Dimensions.get('window')
     this.state = {
       objects: this.props.children,
       rows: [],
-      height: this.props.height,
-      width: this.props.width,
-      visibleNumber: this._calculateVisibleObjects(this.props.width),
-      orientation: this.props.orientation || 'Vertical',
+      height: dimensions.height,
+      width: dimensions.width,
+      visibleNumber: this._calculateVisibleObjects(dimensions.width),
     }
   }
 
@@ -75,19 +75,15 @@ export default class RowList extends Component {
     this.setState({ rows })
   }
 
-  _setOrientation() {
-    if (this.state.height > this.state.width) {
-      this.setState({ orientation: 'Vertical' })
-    } else {
-      this.setState({ orientation: 'Horizontal' })
-    }
-  }
-
   _formatBatch(objects, startIndex) {
     let formattedObjects = []
     objects.forEach((object, ind) => {
       formattedObjects.push(
-        this.onFormat(object, (startIndex + ind), this.state.visibleNumber)
+        this.onFormat(
+          object, 
+          startIndex + ind, 
+          this.state.width / this.state.visibleNumber,
+        )
       )
     })
     return formattedObjects

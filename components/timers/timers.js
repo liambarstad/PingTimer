@@ -42,7 +42,7 @@ export default class Timers extends Component {
     TimerModel.destroy(id)
   }
 
-  formatTimer(timer, index, visibleNumber) {
+  formatTimer(timer, index, width) {
     return (
       <Timer 
         key={timer.id.toString()}
@@ -52,7 +52,7 @@ export default class Timers extends Component {
         time={{time: timer.time}}
         defaulted={timer.defaulted}
         index={index.toString()}
-        width={this.props.width / visibleNumber}
+        width={width}
         notificationScheduler={this.notificationScheduler}
         onDestroy={this.destroyTimer.bind(this)}
       />
@@ -62,15 +62,13 @@ export default class Timers extends Component {
   render() {
     return (
       <SmartView 
-        verticalHeight={'75%'}
-        horizontalHeight={'60%'}
+        verticalHeight='75%'
+        horizontalHeight='60%'
       >
         <ScrollView>
           <RowList
             onFormat={this.formatTimer.bind(this)}
-            height={this.props.height}
-            width={this.props.width}
-            targetWidth={this.props.targetWidth}
+            targetWidth='160'
           >
             { this.state.timers }
           </RowList>
