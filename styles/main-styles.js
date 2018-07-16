@@ -58,7 +58,7 @@ export default mainStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 13,
-    backgroundColor: Colors.detailColor,
+    backgroundColor: Colors.detailColorSecondary,
   },
 
   bucketInactive: {
@@ -67,7 +67,7 @@ export default mainStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 13,
-    backgroundColor: Colors.detailColorSecondary,
+    backgroundColor: Colors.detailColor,
   },
 
   innerPanelVertical: {

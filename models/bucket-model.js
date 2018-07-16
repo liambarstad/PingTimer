@@ -10,6 +10,15 @@ const getAll = async () => {
   }
 }
 
+const get = async (id) => {
+ try {
+   let realm = await Realm.open({ schema })
+   return realm.objectForPrimaryKey('Bucket', id)
+ } catch (e) {
+  alert(e)
+ }
+}
+
 const create = async (data, linkedObjects={}) => {
   try {
     let realm = await Realm.open({ schema })
@@ -26,11 +35,19 @@ const create = async (data, linkedObjects={}) => {
 }
 
 const destroy = async (id) => {
-
+  try {
+    let realm = await Realm.open({ schema })
+    const bucket = realm.objectForPrimaryKey('Bucket', id)
+    realm.write(() => realm.delete(bucket))
+    return bucket
+  } catch (e) {
+    alert(e)
+  }
 }
 
 module.exports = {
   getAll,
+  get,
   create,
   destroy,
 }

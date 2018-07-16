@@ -10,6 +10,7 @@ export default class Buckets extends Component {
   constructor(props) {
     super(props)
     this.notificationScheduler = this.props.notificationScheduler
+    this.onBucketDetail = this.props.onBucketDetail
     this.state = {
       buckets: [],
       creating: false,
@@ -26,27 +27,27 @@ export default class Buckets extends Component {
     this.setState({ creating: true })
   }
 
-  async createBucket(bucket) {
-    let newBucket = await BucketModel.create(bucket)
+  async createBucket(id) {
+    let newBucket = await BucketModel.get(id)
     this.setState({ buckets: [...this.state.buckets, newBucket]})
   }
 
-  destroyBucket(id, ind) {
+  async destroyBucket(id, ind) {
     let buckets = this.state.buckets
     buckets.splice(ind, 1)
     this.setState({ buckets })
-    BucketModel.destroy(id)
+    let bucket = await BucketModel.destroy(id)
   }
 
-  formatBucket(bucket, index, visibleNumber) {
+  formatBucket(bucket, index, width) {
     return (
       <Bucket
         key={bucket.id.toString()}
         id={bucket.id}
         index={index.toString()}
         name={bucket.name}
-        width={this.props.width / visibleNumber}
-        onPress={this.props.onBucketDetail.bind(this)}
+        width={width}
+        onPress={this.onBucketDetail.bind(this)}
         onDestroy={this.destroyBucket.bind(this)}
       />
     )
@@ -65,7 +66,7 @@ export default class Buckets extends Component {
         <ScrollView>
           <RowList
             onFormat={this.formatBucket.bind(this)}
-            targetWidth={this.props.targetWidth}
+            targetWidth='160'
           >
             { this.state.buckets }
           </RowList>

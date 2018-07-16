@@ -44,6 +44,13 @@ export default modalStyles = StyleSheet.create({
     borderRadius: 13, 
   },
 
+  textInput: {
+    width: '100%',
+    height: '10%',
+    backgroundColor: Colors.appTertiary,
+    borderRadius: 13,
+  },
+
   redButton: {
     width: '100%',
     height: '10%',

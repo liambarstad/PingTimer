@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
-import Modal from 'react-native-modal'
+import BucketForm from './bucket-form'
 import bucketStyles from '../../styles/bucket-styles'
 
 export default class Bucket extends Component {
   constructor(props) {
     super(props)
+    this.id = this.props.id
+    this.index = this.props.index
+    this.width = this.props.width
+    this.onPress = this.props.onPress
+    this.onDestroy = this.props.onDestroy
     this.state = {
       name: this.props.name,
       options: false,
@@ -13,12 +18,23 @@ export default class Bucket extends Component {
   }
  
   toggleOptions() {
-
+    let options = !this.state.options
+    this.setState({ options })
   }
 
   deleteBucket() {
     this.setState({ options: false })
     this.props.onDestroy(this.id, parseInt(this.props.index))
+  }
+
+  options() {
+    return (
+      <BucketForm
+        id={this.id}
+        editing={this.state.options} 
+        onDestroy={this.deleteBucket.bind(this)}
+      />
+    )
   }
 
   render() {
@@ -31,6 +47,7 @@ export default class Bucket extends Component {
           bucketStyles.bucket,
         ]}
       >
+        { this.options() }
         <View style={bucketStyles.nameBox}>
           <Text style={bucketStyles.name}>
             { this.state.name }

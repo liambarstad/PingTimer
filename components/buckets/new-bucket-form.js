@@ -10,9 +10,10 @@ const BucketModel = require('../../models/bucket-model')
 export default class NewBucketForm extends Component {
   constructor(props) {
     super(props)
+    this.onSubmit = this.props.onSubmit
     this.state = {
       creating: this.props.creating,
-      name: '',
+      name: 'New Bucket',
       timers: [],
       selectedTimers: [],
     }
@@ -41,13 +42,15 @@ export default class NewBucketForm extends Component {
   }
 
   async submitBucket() {
+    let id = (new Date()).getTime()
     await BucketModel.create({
-        id: (new Date()).getTime(),
+        id,
         name: this.state.name,
       }, 
       {timers: this.state.selectedTimers},
     )
     this.setState({ creating: false })
+    this.onSubmit(id)
   }
 
   formatTimer(timer, index, length) {
@@ -71,21 +74,26 @@ export default class NewBucketForm extends Component {
         animationIn='fadeIn'
         animationOut='fadeOut'
       >
-        <View style={[
-          modalStyles.body,
-          {height: '60%'},
-        ]}>
-          <TextInput
+        <View style={{height: '70%'}}>
+          <View style={modalStyles.textInput}>
+            <TextInput
+              style={[
+                modalStyles.title,
+                modalStyles.darkText,
+              ]}
+              onChangeText={(name) => this.setState({name})}
+              defaultValue='Input Bucket Name'
+              value={this.state.name}
+            />
+          </View>
+
+          <Text
             style={[
               modalStyles.title,
-              modalStyles.darkText,
+              modalStyles.lightText,
             ]}
-            onChangeText={(name) => this.setState({name})}
-            defaultValue='Input Bucket Name'
-            value={this.state.name}
-          />
-
-          <ScrollView>
+          >Select Timers:</Text>
+          <ScrollView style={{height: '70%'}}>
             <RowList
               onFormat={this.formatTimer.bind(this)}
               targetWidth='85'
