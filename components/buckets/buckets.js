@@ -10,7 +10,6 @@ export default class Buckets extends Component {
   constructor(props) {
     super(props)
     this.notificationScheduler = this.props.notificationScheduler
-    this.onBucketDetail = this.props.onBucketDetail
     this.state = {
       buckets: [],
       creating: false,
@@ -47,7 +46,6 @@ export default class Buckets extends Component {
         index={index.toString()}
         name={bucket.name}
         width={width}
-        onPress={this.onBucketDetail.bind(this)}
         onDestroy={this.destroyBucket.bind(this)}
       />
     )

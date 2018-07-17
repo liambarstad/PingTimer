@@ -36,7 +36,6 @@ export default class App extends Component {
       return (
         <Buckets
           ref='main'
-          onBucketDetail={this.toggleBucketDetail.bind(this)}
           notificationScheduler={this.notificationScheduler}
         />
       )
@@ -53,10 +52,6 @@ export default class App extends Component {
   toggleBucketView() {
     let bucketView = !this.state.bucketView
     this.setState({ bucketView })
-  }
-
-  toggleBucketDetail(id) {
-    // change view to certain bucket
   }
 
   async changeInterval(interval) {

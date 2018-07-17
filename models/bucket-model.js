@@ -39,6 +39,20 @@ const toggleTimer = async (bucketId, timerId) => {
   }
 }
 
+const changeName = async (id, name) => {
+  try {
+    if (name) {
+      let realm = await Realm.open({ schema })
+      realm.write(() => {
+        let bucket = realm.objectForPrimaryKey('Bucket', id)
+        bucket.name = name
+        realm.create('Bucket', bucket, true)
+      })
+    }
+  } catch (e) {
+    alert(e)
+  }
+}
 const create = async (data, linkedObjects={}) => {
   try {
     let realm = await Realm.open({ schema })
@@ -69,6 +83,7 @@ module.exports = {
   getAll,
   get,
   toggleTimer,
+  changeName,
   create,
   destroy,
 }

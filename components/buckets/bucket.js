@@ -27,11 +27,17 @@ export default class Bucket extends Component {
     this.props.onDestroy(this.id, parseInt(this.props.index))
   }
 
+  changeName(name) {
+    this.setState({ name })
+  }
+
   options() {
     return (
       <BucketForm
         id={this.id}
         editing={this.state.options} 
+        name={this.state.name}
+        onChangeName={this.changeName.bind(this)}
         onDestroy={this.deleteBucket.bind(this)}
       />
     )
@@ -40,8 +46,7 @@ export default class Bucket extends Component {
   render() {
     return (
       <TouchableOpacity
-        onPress={() => this.props.onPress(this.id)} 
-        onLongPress={this.toggleOptions.bind(this)} 
+        onPress={this.toggleOptions.bind(this)} 
         style={[
           {width: this.props.width},
           bucketStyles.bucket,
