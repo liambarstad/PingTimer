@@ -19,6 +19,26 @@ const get = async (id) => {
  }
 }
 
+const toggleTimer = async (bucketId, timerId) => {
+  try {
+    let realm = await Realm.open({ schema })
+    realm.write(() => {
+      let bucket = realm.objectForPrimaryKey('Bucket', bucketId)
+      let timer = realm.objectForPrimaryKey('Timer', timerId)
+      let ind = bucket.timers.indexOf(timer)
+      if (ind < 0) {
+        bucket.timers.push(timer) 
+        realm.create('Bucket', bucket, true)
+      } else {
+        bucket.timers.splice(ind, 1)
+        realm.create('Bucket', bucket, true)
+      }
+    })
+  } catch (e) {
+    alert(e)
+  }
+}
+
 const create = async (data, linkedObjects={}) => {
   try {
     let realm = await Realm.open({ schema })
@@ -48,6 +68,7 @@ const destroy = async (id) => {
 module.exports = {
   getAll,
   get,
+  toggleTimer,
   create,
   destroy,
 }

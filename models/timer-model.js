@@ -110,10 +110,14 @@ const create = async (data) => {
 }
 
 const destroy = async (id) => {
-  let realm = await Realm.open({ schema })
-  const timers = realm.objects('Timer').filtered(`id = ${id}`)
-  realm.write(() => realm.delete(timers[0]))
-  return timers[0]
+  try {
+    let realm = await Realm.open({ schema })
+    const timer = realm.objectForPrimaryKey('Timer', id)
+    realm.write(() => realm.delete(timer))
+    return timer
+  } catch (e) {
+    alert(e)
+  }
 }
 
 const toggleActive = async (id, prevValue) => {

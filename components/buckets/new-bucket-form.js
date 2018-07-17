@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { Text, View, TextInput, ScrollView, TouchableHighlight } from 'react-native'
 import Modal from 'react-native-modal'
-import RowList from '../shared/row-list'
-import TimerSelection from '../selection-items/timer-selection'
+import TimersSelection from '../selection-items/timers-selection'
 import modalStyles from '../../styles/modal-styles'
-const TimerModel = require('../../models/timer-model')
 const BucketModel = require('../../models/bucket-model')
 
 export default class NewBucketForm extends Component {
@@ -14,14 +12,8 @@ export default class NewBucketForm extends Component {
     this.state = {
       creating: this.props.creating,
       name: 'New Bucket',
-      timers: [],
       selectedTimers: [],
     }
-  }
-
-  async componentDidMount() {
-    let timers = await TimerModel.getAll() 
-    this.setState({ timers })
   }
 
   componentWillReceiveProps(props) {
@@ -53,18 +45,6 @@ export default class NewBucketForm extends Component {
     this.onSubmit(id)
   }
 
-  formatTimer(timer, index, length) {
-    return (
-      <TimerSelection
-        key={timer.id.toString()}
-        id={timer.id}
-        length={length}
-        name={timer.name}
-        onPress={this.toggleTimer.bind(this)}
-      />
-    )
-  }
-
   render() {
     return (
       <Modal
@@ -86,21 +66,11 @@ export default class NewBucketForm extends Component {
               value={this.state.name}
             />
           </View>
-
-          <Text
-            style={[
-              modalStyles.title,
-              modalStyles.lightText,
-            ]}
-          >Select Timers:</Text>
-          <ScrollView style={{height: '70%'}}>
-            <RowList
-              onFormat={this.formatTimer.bind(this)}
-              targetWidth='85'
-            >
-              { this.state.timers }
-            </RowList>
-          </ScrollView>
+          
+          <TimersSelection
+            height='70%'
+            onSelect={this.toggleTimer.bind(this)}
+          />
         </View>
 
         <TouchableHighlight
