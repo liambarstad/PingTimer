@@ -74,6 +74,18 @@ export default class BucketForm extends Component {
     }
   }
 
+  async togglePing(id) {
+    await BucketModel.togglePing(this.id, id)
+    if (this.state.selectedPings.includes(id)) {
+      let selectedPigs = this.state.selectedPings
+      let ind = selectedPings.indexOf(id)
+      selectedPings.splice(ind, 1)
+      this.setState({ selectedPings })
+    } else {
+      this.setState({selectedPings:[...this.state.selectedPings, id]})
+    }
+  }
+
   async changeName() {
     await BucketModel.changeName(this.id, this.state.name) 
     this.setState({ editingName: false })
