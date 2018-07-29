@@ -11,6 +11,9 @@ export default class Timer extends Component {
     super(props)
     this.notificationScheduler = this.props.notificationScheduler
     this.id = this.props.id
+    this.index = this.props.index
+    this.width = this.props.width
+    this.onDestroy = this.props.onDestroy
     this.state = {
       active: this.props.active,
       time: this.props.time.time,
@@ -59,7 +62,7 @@ export default class Timer extends Component {
 
   deleteTimer() {
     this.setState({ options: false })
-    this.props.onDestroy(this.id, parseInt(this.props.index))
+    this.onDestroy(this.id, parseInt(this.index))
   }
 
   startTiming() {
@@ -89,7 +92,7 @@ export default class Timer extends Component {
         onPress={() => this.toggleActive()}
         onLongPress={() => this.toggleOptions()}
         style={[
-          {width: this.props.width},
+          {width: this.width},
           timerStyles.timer,
         ]}
       >

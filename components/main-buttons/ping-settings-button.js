@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableHighlight, Image, Picker, Button } from 'react-native'
 import Modal from 'react-native-modal'
+import PingsSelection from '../selection-items/pings-selection'
 import mainStyles from '../../styles/main-styles'
 import modalStyles from '../../styles/modal-styles'
-const Settings = require('../../models/settings-model')
+const PingModel = require('../../models/ping-model')
 
 export default class PingSettingsButton extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export default class PingSettingsButton extends Component {
     this.state = {
       interval: this.props.interval,
       editing: false,
+      possiblePings: [],
     }
   }
 
@@ -43,15 +45,15 @@ export default class PingSettingsButton extends Component {
     return date_next
   }
   
-  changeValue(interval) {
-    this.setState({ interval })
+  async setInterval() {
+    this.setState({editing:false})
   }
 
-  async setInterval() {
-    let nextPing = this.getNextPingDate()
-    this.notificationScheduler.changeInterval(this.state.interval, nextPing)
-    await this.props.onChange(this.state.interval)
-    this.setState({editing:false})
+  async setNewDefault(interval) {
+    let nextPing = this.getNextPingDate(interval)
+    this.notificationScheduler.changeInterval(interval, nextPing)
+    await this.props.onChange(interval)
+    this.setState({ interval })
   }
 
   modal() {
@@ -63,25 +65,29 @@ export default class PingSettingsButton extends Component {
         animationIn='fadeIn'
         animationOut='fadeOut'
       >
-        <View style={modalStyles.body}>
-          <Text style={[modalStyles.darkText, modalStyles.title]}>
-            {`Next Ping ${this.nextPing()}`}
-          </Text>
+        <Text style={[modalStyles.lightText, modalStyles.title]}>
+          Set Default Ping
+        </Text>
 
-          <Picker
-            selectedValue={this.state.interval} 
-            onValueChange={(interval, ind) => this.changeValue(interval)}
-          >
-            { this._renderPossiblePings() }
-          </Picker>
-        </View>
-        
+        <Text style={[modalStyles.lightText, modalStyles.title]}>
+          {`Next Ping ${this.nextPing()}`}
+        </Text>
+
+        <PingsSelection
+          notificationScheduler={this.notificationScheduler}
+          height='60%'
+          onSelect={this.setNewDefault.bind(this)}
+          singluarSelection={true}
+        >
+          { this.state.interval }
+        </PingsSelection>
+
         <TouchableHighlight
           style={modalStyles.returnButton}
-          onPress={this.setInterval.bind(this)}
+          onPress={() => this.setState({editing:false})}
         >
           <Text style={[modalStyles.lightText, modalStyles.title]}>
-            Set Default Interval
+            Return
           </Text>
         </TouchableHighlight>
       </Modal>
@@ -102,17 +108,6 @@ export default class PingSettingsButton extends Component {
         </View>
       </TouchableHighlight>
     )
-  }
-
-  _renderPossiblePings() {
-    let pickerItems = []
-    let possible = Settings.possiblePingIntervals
-    for (let label in possible) {
-      pickerItems.push(
-        <Picker.Item label={label} value={possible[label]} />
-      )
-    }
-    return pickerItems
   }
 
   _getDateExceptions() {

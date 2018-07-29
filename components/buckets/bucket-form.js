@@ -9,6 +9,7 @@ import BucketModel from '../../models/bucket-model'
 export default class BucketForm extends Component {
   constructor(props) {
     super(props)
+    this.notificationScheduler = this.props.notificationScheduler
     this.id = this.props.id
     this.onChangeName = this.props.onChangeName
     this.onDestroy = this.props.onDestroy
@@ -27,7 +28,7 @@ export default class BucketForm extends Component {
     let selectedTimers = []
     let selectedPings = []
     bucket.timers.forEach((timer) => selectedTimers.push(timer.id))
-    //bucket.pings.forEach((ping) => selectedPings.push(ping.id))
+    bucket.pings.forEach((ping) => selectedPings.push(ping))
     this.setState({ selectedTimers, selectedPings })
   }
 
@@ -49,10 +50,13 @@ export default class BucketForm extends Component {
     } else {
       return (
         <PingsSelection
+          notificationScheduler={this.notificationScheduler}
           height='60%'
           onSelect={this.togglePing.bind(this)}
-          alreadySelected={this.state.selectedPings}
-        />
+          showTitle={true}
+        >
+          { this.state.selectedPings }
+        </PingsSelection>
       )
     }
   }
@@ -144,20 +148,20 @@ export default class BucketForm extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight
-          style={modalStyles.returnButton}
-          onPress={() => this.setState({editing:false})}
-        >
-          <Text style={modalStyles.title}>
-            Back To Buckets
-          </Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
           style={modalStyles.redButton}
           onPress={this.destroy.bind(this)}
         >
           <Text style={modalStyles.title}>
             Delete Bucket
+          </Text>
+        </TouchableHighlight>
+
+        <TouchableHighlight
+          style={modalStyles.returnButton}
+          onPress={() => this.setState({editing:false})}
+        >
+          <Text style={modalStyles.title}>
+            Return
           </Text>
         </TouchableHighlight>
       </Modal>

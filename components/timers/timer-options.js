@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableHighlight, TextInput } from 'react-native'
 import Modal from 'react-native-modal'
-import CustomPings from './custom-pings'
+import PingsSelection from '../selection-items/pings-selection'
+//import CustomPings from './custom-pings'
 import modalStyles from '../../styles/modal-styles'
+const TimerModel = require('../../models/timer-model')
 
 export default class TimerOptions extends Component {
   constructor(props) {
@@ -15,7 +17,13 @@ export default class TimerOptions extends Component {
       timerActive: this.props.timerActive,
       editingName: false,
       editingCustomPing: false,
+      selectedPings: [],
     }
+  }
+
+  async componentDidMount() {
+    let selectedPings = await TimerModel.getActiveIntervals(this.id)
+    this.setState({ selectedPings })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,12 +44,12 @@ export default class TimerOptions extends Component {
     this.props.toggle()
   }
 
-  toggleEditing() {
+  toggleEditingName() {
     let editingName = !this.state.editingName
     this.setState({ editingName })
   }
 
-  toggleCustomPing() {
+  toggleEditingCustomPing() {
     let editingCustomPing = !this.state.editingCustomPing
     this.setState({ editingCustomPing })
   }
@@ -56,11 +64,35 @@ export default class TimerOptions extends Component {
     this.props.onDelete()
   }
 
+  async togglePing(selected, defaulted, value='') {
+    if (defaulted) {
+      this.toggleDefaultPing(selected) 
+    } else {
+      this.toggleCustomPing(selected, value)
+    }
+  }
+
+  async toggleDefaultPing(selected) {
+    if (selected) {
+      let result = await TimerModel.turnOffDefault(this.id)
+    } else {
+      let result = await TimerModel.turnOnDefault(this.id)
+    }
+  }
+
+  async toggleCustomPing(selected, value) {
+    if (selected) {
+      let result = await TimerModel.removeCustom(this.id, value)
+    } else {
+      let result = await TimerModel.addCustom(this.id, value)
+    }
+  }
+
   editNameModal() {
     return (
       <Modal
         isVisible={this.state.editingName}
-        onBackdropPress={this.toggleEditing.bind(this)}
+        onBackdropPress={this.toggleEditingName.bind(this)}
         style={modalStyles.center}
         animationIn='fadeIn'
         animationOut='fadeOut'
@@ -87,17 +119,31 @@ export default class TimerOptions extends Component {
     return (
       <Modal
         isVisible={this.state.editingCustomPing}
-        onBackdropPress={this.toggleCustomPing.bind(this)}
+        onBackdropPress={this.toggleEditingCustomPing.bind(this)}
         style={modalStyles.center}
         animationIn='fadeIn'
         animationOut='fadeOut'
       >
-        <CustomPings
-          id={this.id}
-          timerName={this.state.timerName}
-          timerActive={this.state.timerActive}
-          notificationScheduler={this.props.notificationScheduler}
-        />
+        <Text style={[modalStyles.lightText, modalStyles.title]}>
+          Select Pings For This Timer: 
+        </Text>
+
+        <PingsSelection
+          notificationScheduler={this.notificationScheduler}
+          height='70%'
+          onSelect={this.togglePing.bind(this)}
+        >
+          { this.state.selectedPings }
+        </PingsSelection>
+
+        <TouchableHighlight
+          style={modalStyles.returnButton}
+          onPress={this.toggleEditingCustomPing.bind(this)}
+        >
+          <Text style={[modalStyles.lightText, modalStyles.title]}>
+            Return
+          </Text>
+        </TouchableHighlight>
       </Modal>
     )
   }
@@ -115,7 +161,7 @@ export default class TimerOptions extends Component {
         { this.customPingModal() }
         <TouchableHighlight
           style={modalStyles.returnButton}
-          onPress={this.toggleEditing.bind(this)}
+          onPress={this.toggleEditingName.bind(this)}
         >
           <Text style={[modalStyles.lightText, modalStyles.title]}>
             Edit Name
@@ -124,10 +170,10 @@ export default class TimerOptions extends Component {
 
         <TouchableHighlight
           style={modalStyles.returnButton}
-          onPress={this.toggleCustomPing.bind(this)}
+          onPress={this.toggleEditingCustomPing.bind(this)}
         >
           <Text style={[modalStyles.lightText, modalStyles.title]}>
-            Set Custom Ping
+            Set Custom Pings
           </Text>
         </TouchableHighlight>
         

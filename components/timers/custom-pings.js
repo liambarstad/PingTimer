@@ -63,11 +63,12 @@ export default class CustomPings extends Component {
 
   render() {
     return (
-      <ScrollView
-        style={modalStyles.optionList} 
+      <RowList
+        onFormat={this.formatPing.bind(this)}
+        targetWidth='90'
       >
         { this.state.pings }
-      </ScrollView>
+      </RowList>
     )
   }
 
@@ -82,11 +83,13 @@ export default class CustomPings extends Component {
     return customPings
   }
 
-  _formatPing(label, value) {
+  _formatPing(ping, index, width) {
     return (
       <CustomPing
-        label={label}
-        value={value}
+        key={index}
+        
+        label='fuck'
+        value='you'
         defaultPing={this._isDefaultPing(value)} 
         currentlyOn={this._isCurrentlyOn(value)}
         onToggle={this.toggleOption.bind(this)}

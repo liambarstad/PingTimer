@@ -6,6 +6,7 @@ import bucketStyles from '../../styles/bucket-styles'
 export default class Bucket extends Component {
   constructor(props) {
     super(props)
+    this.notificationScheduler = this.props.notificationScheduler
     this.id = this.props.id
     this.index = this.props.index
     this.width = this.props.width
@@ -34,6 +35,7 @@ export default class Bucket extends Component {
   options() {
     return (
       <BucketForm
+        notificationScheduler={this.notificationScheduler}
         id={this.id}
         editing={this.state.options} 
         name={this.state.name}

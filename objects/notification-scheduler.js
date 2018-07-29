@@ -73,7 +73,6 @@ export default class NotificationScheduler {
 
   async toggleDefault(id, timerName, currentlyOn, currentlyActive) {
     if (currentlyOn) {
-      let result = await TimerModel.turnOffDefault(id)
       if (currentlyActive) { this.removeFromDefaultNotification(id) }
     } else {
       if (currentlyActive) { this.addToDefaultNotification(id, timerName) }
@@ -82,10 +81,8 @@ export default class NotificationScheduler {
 
   async toggleCustom(id, timerName, value, currentlyOn, currentlyActive) {
     if (currentlyOn) {
-      let result = await TimerModel.removeCustom(id, value)
       if (currentlyActive) { this.removeCustomNotification(id, value) }
     } else {
-      let result = await TimerModel.addCustom(id, value)
       if (currentlyActive) { this.addCustomNotification(id, value, timerName) }
     }
   }

@@ -3,6 +3,7 @@ const appSecondary = '#4E688E'
 const appTertiary = '#e6ffff'
 const detailColor = '#3B3175'
 const detailColorSecondary = '#246C5E'
+const pingColor = '#933157'
 
 module.exports = { 
   appPrimary, 
@@ -10,4 +11,5 @@ module.exports = {
   appTertiary,
   detailColor,
   detailColorSecondary,
+  pingColor,
 }

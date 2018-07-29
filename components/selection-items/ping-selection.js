@@ -5,7 +5,8 @@ import selectionStyles from '../../styles/selection-styles'
 export default class PingSelection extends Component {
   constructor(props) {
     super(props)
-    this.id = this.props.id
+    this.index = this.props.index
+    this.name = this.props.name
     this.value = this.props.value
     this.length = this.props.length
     this.onPress = this.props.onPress
@@ -16,11 +17,19 @@ export default class PingSelection extends Component {
   }
 
   toggleSelected() {
-
+    let selected = !this.state.selected
+    this.setState({ selected })
+    this.onPress(this.value)
   }
 
   getBorder() {
-
+    if (this.state.selected) {
+      if (this.state.defaulted) {
+        return selectionStyles.selectedDefault
+      } else {
+        return selectionStyles.selected
+      }
+    }
   }
 
   render() {
@@ -36,7 +45,7 @@ export default class PingSelection extends Component {
         <Text
           style={selectionStyles.title}
         >
-          { this.value } 
+          { this.name } 
         </Text>
       </TouchableHighlight>
     )

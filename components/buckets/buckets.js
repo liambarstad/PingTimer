@@ -41,6 +41,7 @@ export default class Buckets extends Component {
   formatBucket(bucket, index, width) {
     return (
       <Bucket
+        notificationScheduler={this.notificationScheduler}
         key={bucket.id.toString()}
         id={bucket.id}
         index={index.toString()}

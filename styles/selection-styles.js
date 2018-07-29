@@ -9,10 +9,22 @@ export default timerStyles = StyleSheet.create({
     borderRadius: 10,
   },
 
+  pingSelection: {
+    backgroundColor: Colors.pingColor,
+    justifyContent: 'center',
+    borderRadius: 10,
+  }, 
+
   selected: {
     borderStyle: 'solid',
     borderWidth: 3,
     borderColor: 'red',
+  },
+
+  selectedDefault: {
+    borderStyle: 'solid',
+    borderWidth: 3,
+    borderColor: 'green',
   },
 
   title: {
