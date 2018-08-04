@@ -7,7 +7,7 @@ export default class TimerSelection extends Component {
     super(props)
     this.id = this.props.id
     this.name = this.props.name
-    this.length = this.props.length
+    this.length = this.props.length - 17
     this.onPress = this.props.onPress
     this.state = {
       selected: this.props.selected || false,

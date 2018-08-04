@@ -71,7 +71,7 @@ export default class PingsSelection extends Component {
         <ScrollView>
           <RowList
             onFormat={this.formatPing.bind(this)}
-            targetWidth='85'
+            targetWidth='100'
           >
             { this.state.pings }
           </RowList>

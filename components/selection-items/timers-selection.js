@@ -54,7 +54,7 @@ export default class TimersSelection extends Component {
       <ScrollView>
         <RowList
           onFormat={this.formatTimer.bind(this)}
-          targetWidth='85'
+          targetWidth='100'
         >
           { this.state.timers }
         </RowList>

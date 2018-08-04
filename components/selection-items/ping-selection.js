@@ -8,7 +8,7 @@ export default class PingSelection extends Component {
     this.index = this.props.index
     this.name = this.props.name
     this.value = this.props.value
-    this.length = this.props.length
+    this.length = this.props.length - 17
     this.onPress = this.props.onPress
     this.state = {
       selected: this.props.selected || false,
