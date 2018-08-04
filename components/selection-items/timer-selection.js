@@ -25,7 +25,11 @@ export default class TimerSelection extends Component {
       <TouchableHighlight
         onPress={this.toggleSelected.bind(this)}
         style={[
-          {width: this.length, height: this.length},
+          {
+            width: this.length, 
+            height: this.length,
+            padding: '3%',
+          },
           selectionStyles.timerSelection,
           this.state.selected && selectionStyles.selected,
         ]}

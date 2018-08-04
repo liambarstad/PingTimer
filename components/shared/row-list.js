@@ -7,6 +7,7 @@ export default class RowList extends Component {
     super(props)
     this.onFormat = this.props.onFormat
     this.targetWidth = this.props.targetWidth
+    this.padding = this.props.padding || false
     let dimensions = Dimensions.get('window')
     this.state = {
       objects: this.props.children,
@@ -91,7 +92,11 @@ export default class RowList extends Component {
 
   _formatRow(formattedObjects) {
     return (
-      <View style={{flexDirection: 'row'}}>
+      <View style={{
+        justifyContent: 'space-between',
+        padding: this.padding,
+        flexDirection: 'row',
+      }}>
         { formattedObjects }
       </View>
     )

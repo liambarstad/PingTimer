@@ -34,7 +34,7 @@ export default class TimersSelection extends Component {
       <TimerSelection
         key={timer.id.toString()}
         id={timer.id}
-        length={length}
+        length={length - 15}
         name={timer.name}
         selected={this.checkIfSelected(timer.id)}
         onPress={this.onSelect.bind(this)}
@@ -54,6 +54,7 @@ export default class TimersSelection extends Component {
       <ScrollView>
         <RowList
           onFormat={this.formatTimer.bind(this)}
+          padding='3%'
           targetWidth='100'
         >
           { this.state.timers }

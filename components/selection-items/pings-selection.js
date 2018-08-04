@@ -54,7 +54,7 @@ export default class PingsSelection extends Component {
       <PingSelection
         key={index}
         index={index}
-        length={length}
+        length={length - 15}
         name={ping.name}
         value={ping.value}
         defaulted={this.checkIfDefault(ping.value)}
@@ -71,6 +71,7 @@ export default class PingsSelection extends Component {
         <ScrollView>
           <RowList
             onFormat={this.formatPing.bind(this)}
+            padding='3%'
             targetWidth='100'
           >
             { this.state.pings }
