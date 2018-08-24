@@ -55,7 +55,8 @@ export default class TimerOptions extends Component {
   }
 
   submitName() {
-    this.toggleEditing()
+    this.toggleEditingName()
+    this.toggle()
     this.props.onEdit(this.state.timerName)
   }
 

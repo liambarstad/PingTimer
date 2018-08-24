@@ -7,7 +7,7 @@ export default class RowList extends Component {
     super(props)
     this.onFormat = this.props.onFormat
     this.targetWidth = this.props.targetWidth
-    this.padding = this.props.padding || false
+    this.padding = this.props.padding || '0%'
     let dimensions = Dimensions.get('window')
     this.state = {
       objects: this.props.children,
