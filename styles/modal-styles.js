@@ -13,6 +13,8 @@ export default modalStyles = StyleSheet.create({
 
   bottom: {
     justifyContent: 'flex-end',
+    position: 'absolute',
+    bottom: 0,
   },
 
   body: {

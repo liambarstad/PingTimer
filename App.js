@@ -4,7 +4,7 @@ import { Text, View, Image } from 'react-native'
 import PingSettingsButton from './components/main-buttons/ping-settings-button'
 import HelpButton from './components/main-buttons/help-button'
 import BucketButton from './components/main-buttons/bucket-button'
-import TagsButton from './components/main-buttons/tags-button'
+import ReportsButton from './components/main-buttons/reports-button'
 import SettingsButton from './components/main-buttons/settings-button'
 import NewTimerButton from './components/main-buttons/new-timer-button'
 import Timers from './components/timers/timers'
@@ -118,7 +118,7 @@ export default class App extends Component {
               this.state.innerPanelStyle,
             ]}
           >
-            <TagsButton />
+            <ReportsButton />
             <SettingsButton />
           </View>
 

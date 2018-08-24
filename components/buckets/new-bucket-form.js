@@ -63,7 +63,6 @@ export default class NewBucketForm extends Component {
               ]}
               onChangeText={(name) => this.setState({name})}
               defaultValue='Input Bucket Name'
-              value={this.state.name}
             />
           </View>
           
