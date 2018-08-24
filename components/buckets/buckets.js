@@ -27,6 +27,7 @@ export default class Buckets extends Component {
   }
 
   async createBucket(id) {
+    this.setState({ creating: false })
     let newBucket = await BucketModel.get(id)
     this.setState({ buckets: [...this.state.buckets, newBucket]})
   }
