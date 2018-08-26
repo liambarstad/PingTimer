@@ -36,11 +36,7 @@ export default class BucketReportBar extends Component {
 
         <View style={reportStyles.divider} />
 
-        <View
-          style={{
-            height: '30%',
-          }}
-        >
+        <View style={reportStyles.barFooterContainer}>
           <Text style={reportStyles.barFooter}>
             { this.name }
           </Text> 

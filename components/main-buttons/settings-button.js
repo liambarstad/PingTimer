@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableHighlight, Image, Animated } from 'react-native'
+import { Text, View, TouchableHighlight, Modal, Image, Animated } from 'react-native'
+import Settings from '../settings/settings'
 import mainStyles from '../../styles/main-styles'
 
 export default class SettingsButton extends Component {
@@ -10,32 +11,29 @@ export default class SettingsButton extends Component {
     }
   }
 
+  toggleActive() {
+    let active = !this.state.active
+    this.setState({ active })
+  }
+
   modal() {
-    /*return (
-      <Animated.View
-        style={{
-          display: this._calculateDisplay(this.state.active),
-          transform: [{ translateY:  
-          position: 'absolute',
-        }}
+    return (
+      <Modal
+        animationType='slide'
+        visible={this.state.active}
+        onRequestClose={this.toggleActive.bind(this)}
       >
-        <Text>insert goodies here</Text>
-      </Animated.View>
-    )*/
-  }
-
-  fadeIn() {
-
-  }
-
-  fadeOut() {
-
+        <Settings
+          onReturn={this.toggleActive.bind(this)}
+        />
+      </Modal>
+    )
   }
 
   render() {
     return (
       <TouchableHighlight
-        onPress={() => this.setState({active:true})}
+        onPress={this.toggleActive.bind(this)}
       >
         <View>
           { this.modal() }
@@ -46,17 +44,6 @@ export default class SettingsButton extends Component {
         </View>
       </TouchableHighlight>
     )
-  }
-
-  _calculateDisplay(bool) {
-    /*bool ?
-      return 'none':
-      return 'block'*/
-  }
-
-  _calculateYTop() {
-    let val = new Animated.Value(-70)
-    // 30% of overall height
   }
 
 }

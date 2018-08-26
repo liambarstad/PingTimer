@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, TouchableHighlight } from 'react-native'
 import ReportTabs from './report-tabs'
 import BucketReportBars from './bucket-report-bars'
+import reportStyles from '../../styles/report-styles'
 
 export default class Reports extends Component {
   constructor(props) {
@@ -26,12 +27,7 @@ export default class Reports extends Component {
 
   render() {
     return (
-      <View
-        style={{
-          height:'100%',
-          flexDirection: 'column',
-        }}
-      >
+      <View style={reportStyles.reportBackground}>
         <ReportTabs 
           onChange={this.switchTabs.bind(this)} 
         />
@@ -40,12 +36,9 @@ export default class Reports extends Component {
 
         <TouchableHighlight
           onPress={this.onReturn}
-          style={[
-            modalStyles.returnButton,
-            modalStyles.bottom,
-          ]}
+          style={reportStyles.returnButton}
         >
-          <Text style={modalStyles.title}>
+          <Text style={reportStyles.title}>
             Return
           </Text>
         </TouchableHighlight>

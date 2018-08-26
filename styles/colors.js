@@ -1,15 +1,22 @@
-const appPrimary = '#142E54'
-const appSecondary = '#4E688E'
-const appTertiary = '#e6ffff'
-const detailColor = '#3B3175'
-const detailColorSecondary = '#246C5E'
-const pingColor = '#933157'
+class Colors {
+  constructor() {
+    this.appPrimary = '#142E54'
+    this.appSecondary = '#4E688E'
+    this.appTertiary = '#e6ffff'
+    this.detailColor = '#3B3175'
+    this.detailColorSecondary = '#246C5E'
+    this.pingColor = '#933157'
+    this.selected = 'blue'
+  }
 
-module.exports = { 
-  appPrimary, 
-  appSecondary, 
-  appTertiary,
-  detailColor,
-  detailColorSecondary,
-  pingColor,
+  selectColor(scheme) {
+
+  }
+
+  getPrimaryColor(scheme) {
+
+  }
+
 }
+
+module.exports = new Colors()
